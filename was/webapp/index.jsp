@@ -6,7 +6,7 @@
     <title>CICD Lab - WAS</title>
 </head>
 <body>
-    <h1>⚙️ 버전 1.0</h1>
+    <h1>⚙️ 버전 2.0 (버그 수정됨)</h1>
     <p>여기는 WAS(Tomcat 10)가 처리하는 동적 페이지입니다.</p>
     <p>현재 서버 시간: <%= new java.util.Date() %></p>
 </body>
