@@ -1,0 +1,24 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]      # main에 push될 때만 실행
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest  # GitHub이 제공하는 일회용 우분투 VM
+
+    steps:
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Runner 환경 정찰
+        run: |
+          echo "🤖 CI 로봇 기동!"
+          echo "커밋 해시: $GITHUB_SHA"
+          echo "트리거한 사람: $GITHUB_ACTOR"
+          docker --version
+          ls -la
+
+      - name: was 폴더 확인
+        run: ls -la was/
