@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: was
-          image: ghcr.io/work-kty/cicd-was:a3b92441bd9d10e96e76f8cd48d515dd2c038d9f
-          imagePullPolicy: Never
+          image: ghcr.io/work-kty/cicd-was:90b56470dd7c07c7d96bbde05f43aa92f808e8c1
+#          imagePullPolicy: Never
           ports:
             - containerPort: 8080
           envFrom:                      # ConfigMap/Secret의 모든 키를 환경변수로 통째 주입
