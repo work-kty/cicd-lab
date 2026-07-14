@@ -1,7 +1,7 @@
 package com.cicdlab.app.web;
 
 import com.cicdlab.app.model.User;
-import com.cicdlab.app.store.MemoryStore;
+import com.cicdlab.app.store.DbStore;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -30,7 +30,7 @@ public class SignupServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(req, resp);
             return;
         }
-        boolean ok = MemoryStore.get().addUser(new User(username, password, nickname));
+        boolean ok = DbStore.get().addUser(new User(username, password, nickname));
         if (!ok) {
             req.setAttribute("error", "이미 존재하는 아이디입니다.");
             req.getRequestDispatcher("/WEB-INF/views/signup.jsp").forward(req, resp);

@@ -14,7 +14,12 @@ spec:
     spec:
       containers:
         - name: was
-          image: cicd-was:4.0
+          image: cicd-was:5.1
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+          envFrom:                      # ConfigMap/Secret의 모든 키를 환경변수로 통째 주입
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-secret

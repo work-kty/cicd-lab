@@ -20,8 +20,8 @@ public class MemoryStore {
     public boolean addUser(User u) { return users.putIfAbsent(u.getUsername(), u) == null; }
     public User findUser(String username) { return users.get(username); }
 
-    public void addPost(String title, String content, String writer) {
-        posts.add(0, new Post(postSeq.incrementAndGet(), title, content, writer));
-    }
+    // public void addPost(String title, String content, String writer) {
+    //     posts.add(0, new Post(postSeq.incrementAndGet(), title, content, writer));
+    // }
     public List<Post> findAllPosts() { return List.copyOf(posts); }
 }

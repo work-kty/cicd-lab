@@ -1,7 +1,7 @@
 package com.cicdlab.app.web;
 
 import com.cicdlab.app.model.User;
-import com.cicdlab.app.store.MemoryStore;
+import com.cicdlab.app.store.DbStore;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -13,7 +13,7 @@ public class BoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setAttribute("posts", MemoryStore.get().findAllPosts());
+        req.setAttribute("posts", DbStore.get().findAllPosts());
         req.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(req, resp);
     }
 
@@ -29,7 +29,7 @@ public class BoardServlet extends HttpServlet {
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         if (title != null && !title.isBlank()) {
-            MemoryStore.get().addPost(title, content, loginUser.getNickname());
+            DbStore.get().addPost(title, content, loginUser.getNickname());
         }
         resp.sendRedirect(req.getContextPath() + "/board");
     }

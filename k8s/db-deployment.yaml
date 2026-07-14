@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.4
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MARIADB_DATABASE          # 공식 이미지가 첫 기동 시 DB 자동 생성
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_NAME
+            - name: MARIADB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_USER
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_ROOT_PASSWORD
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/mysql       # MariaDB 데이터 디렉토리를 PVC로!
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc

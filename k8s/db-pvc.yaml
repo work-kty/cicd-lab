@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce          # 노드 1개에서 읽기/쓰기 (DB용 표준)
+  resources:
+    requests:
+      storage: 1Gi

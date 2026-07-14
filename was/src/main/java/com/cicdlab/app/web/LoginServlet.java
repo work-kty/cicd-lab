@@ -1,7 +1,7 @@
 package com.cicdlab.app.web;
 
 import com.cicdlab.app.model.User;
-import com.cicdlab.app.store.MemoryStore;
+import com.cicdlab.app.store.DbStore;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        User user = MemoryStore.get().findUser(username);
+        User user = DbStore.get().findUser(username);
         if (user == null || !user.getPassword().equals(password)) {
             req.setAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);

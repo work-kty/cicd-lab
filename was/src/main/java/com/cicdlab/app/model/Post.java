@@ -10,17 +10,20 @@ public class Post {
     private final String writer;
     private final String createdAt;
 
-    public Post(long id, String title, String content, String writer) {
+    public Post(long id, String title, String content, String writer, String createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.writer = writer;
-        this.createdAt = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.createdAt = createdAt;
     }
+    
     public long getId() { return id; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
     public String getWriter() { return writer; }
     public String getCreatedAt() { return createdAt; }
+
+
+    
 }
