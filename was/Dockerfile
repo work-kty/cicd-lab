@@ -1,9 +1,13 @@
+# Stage 1: 빌드 공장
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn package -DskipTests
+
+# Stage 2: 운영 서버
 FROM tomcat:10.1-jdk17
-
-# 기본 제공 앱 제거 (경량화 + 보안)
 RUN rm -rf /usr/local/tomcat/webapps/*
-
-# 우리 JSP 앱을 /app 컨텍스트로 배포
-COPY webapp/ /usr/local/tomcat/webapps/app/
-
+COPY --from=builder /build/target/app.war /usr/local/tomcat/webapps/app.war
 EXPOSE 8080

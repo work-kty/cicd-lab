@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: cicd-web:1.0
+          image: cicd-web:2.1
           imagePullPolicy: Never
           ports:
             - containerPort: 80
