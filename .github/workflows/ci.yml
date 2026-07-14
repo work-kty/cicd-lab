@@ -2,23 +2,45 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]      # main에 push될 때만 실행
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: work-kty            # GHCR 경로는 소문자여야 해요
 
 jobs:
-  hello:
-    runs-on: ubuntu-latest  # GitHub이 제공하는 일회용 우분투 VM
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:             # 이 Job의 GITHUB_TOKEN에 부여할 권한
+      contents: read         # 코드 읽기
+      packages: write        # GHCR에 이미지 쓰기
 
     steps:
       - name: 소스코드 체크아웃
         uses: actions/checkout@v4
 
-      - name: Runner 환경 정찰
-        run: |
-          echo "🤖 CI 로봇 기동!"
-          echo "커밋 해시: $GITHUB_SHA"
-          echo "트리거한 사람: $GITHUB_ACTOR"
-          docker --version
-          ls -la
+      - name: GHCR 로그인
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   # 자동 발급 일회용 토큰
 
-      - name: was 폴더 확인
-        run: ls -la was/
+      - name: WAS 이미지 빌드 & push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./was                            # docker build의 그 컨텍스트!
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/cicd-was:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/cicd-was:latest
+
+      - name: WEB 이미지 빌드 & push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./web
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/cicd-web:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/cicd-web:latest
