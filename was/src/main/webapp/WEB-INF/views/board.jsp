@@ -6,7 +6,7 @@
 <html lang="ko">
 <head><meta charset="UTF-8"><title>게시판</title></head>
 <body>
-    <h1>📋 게시판 (v6.0 - GitOps!)</h1>
+    <h1>📋 게시판 (v7.0 - Full Auto!)</h1>
     <%
         User loginUser = (User) session.getAttribute("loginUser");
         if (loginUser != null) {
