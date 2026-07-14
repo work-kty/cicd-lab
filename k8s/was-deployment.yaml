@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: was
-          image: cicd-was:5.1
+          image: ghcr.io/work-kty/cicd-was:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080

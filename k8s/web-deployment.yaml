@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: cicd-web:2.1
+          image: ghcr.io/work-kty/cicd-web:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 80
